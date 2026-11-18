@@ -133,7 +133,7 @@ async function downloadFileInternal(blob: Blob, filename: string, options: Downl
     };
 
     
-    if (shouldUseNativeShare) {
+
         const file = new File([blob], filename, { type: blob.type || "application/octet-stream" });
         const canNativeShare = typeof navigator !== "undefined"
             && typeof navigator.share === "function"
