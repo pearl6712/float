@@ -132,10 +132,7 @@ async function downloadFileInternal(blob: Blob, filename: string, options: Downl
         }
     };
 
-    
 
-
-    }
 
     // 壳环境中 blob: + a[download] 通常无法落盘，必须使用原生桥；失败时不再假装浏览器兜底成功。
     const shell = readFloatShellBridge();

@@ -1108,11 +1108,7 @@ private fun deleteCachedSharedVideoInternal(cacheId: String): Boolean {
             allowFileAccess = false
             userAgentString = "$userAgentString FloatShell/$VERSION"
         }
-        CookieManager.getInstance().setAcceptCookie(true)
-        // The app embeds cross-site video players (notably Bilibili's official iframe).
-        // Third-party cookies must be permitted for those embeds to retain supported session state.
-        // This does not bypass platform login/permission checks; it only removes our WebView-level block.
-        CookieManager.getInstance().setAcceptThirdPartyCookies(webView, true)
+
 
         // The raw Android interfaces are never exposed under the app-facing names.
         // Cross-origin frames can see JavascriptInterface objects, so they receive only a nonce-gated RPC endpoint.
