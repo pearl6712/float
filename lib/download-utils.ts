@@ -134,32 +134,7 @@ async function downloadFileInternal(blob: Blob, filename: string, options: Downl
 
     
 
-        const file = new File([blob], filename, { type: blob.type || "application/octet-stream" });
-        const canNativeShare = typeof navigator !== "undefined"
-            && typeof navigator.share === "function"
-            && typeof navigator.canShare === "function"
-            && navigator.canShare({ files: [file] });
-        if (canNativeShare) {
-            try {
-                await navigator.share({ files: [file] });
-                emitDownloadNotice("success", `已打开系统分享：${filename}`);
-                setTimeout(() => URL.revokeObjectURL(url), 1000);
-                return;
-            } catch (err) {
-                // User explicitly dismissed the share sheet → respect it, don't force a download.
-                if (err instanceof DOMException && err.name === "AbortError") {
-                    emitDownloadNotice("info", `已取消保存：${filename}`);
-                    setTimeout(() => URL.revokeObjectURL(url), 1000);
-                    return;
-                }
-                // Any other failure (webview without real file-share support, lost user
-                // activation, etc.) is surfaced to the caller on iOS instead of opening
-                // the blob URL, which can navigate away from the app.
-            }
-        }
-        setTimeout(() => URL.revokeObjectURL(url), 1000);
-        emitDownloadNotice("error", `${filename}：当前浏览器没有成功打开系统分享，请在 Safari 中重试，或导出轻量备份后再试。`);
-        return;
+
     }
 
     // 壳环境中 blob: + a[download] 通常无法落盘，必须使用原生桥；失败时不再假装浏览器兜底成功。
